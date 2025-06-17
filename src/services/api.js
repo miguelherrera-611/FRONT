@@ -1,5 +1,13 @@
 import axios from 'axios';
-import { API_BASE_URLS } from '../utils/constants';
+
+// Actualiza tus URLs existentes con las correctas según tu backend
+export const API_BASE_URLS = {
+  USUARIOS: 'http://localhost:8080/api',
+  CITAS: 'http://localhost:8081',
+  NOTIFICACIONES: 'http://localhost:8000',
+  PAGOS: 'http://localhost:5000',
+  TIENDA: 'http://localhost:5050/api/tienda'  // Puerto correcto según tu Django
+};
 
 // Configuración de Axios para usuarios
 export const usuariosAPI = axios.create({
@@ -28,23 +36,19 @@ export const tiendaAPI = axios.create({
   }
 });
 
-// Interceptores para manejo de errores
+// Interceptores para manejo de errores (mantén tu código existente)
 const setupInterceptors = (apiInstance) => {
-  // Interceptor de respuesta
   apiInstance.interceptors.response.use(
     (response) => response,
     (error) => {
       console.error('Error en la API:', error);
       
       if (error.response) {
-        // El servidor respondió con un código de error
         console.error('Error status:', error.response.status);
         console.error('Error data:', error.response.data);
       } else if (error.request) {
-        // No se recibió respuesta
         console.error('No response received:', error.request);
       } else {
-        // Error en la configuración de la petición
         console.error('Request setup error:', error.message);
       }
       
@@ -53,12 +57,11 @@ const setupInterceptors = (apiInstance) => {
   );
 };
 
-// Aplicar interceptores a todas las instancias
 setupInterceptors(usuariosAPI);
 setupInterceptors(citasAPI);
 setupInterceptors(tiendaAPI);
 
-// Función helper para manejar errores de forma consistente
+// Función helper para manejar errores (mantén tu código existente)
 export const handleAPIError = (error) => {
   if (error.response) {
     return {
@@ -79,4 +82,13 @@ export const handleAPIError = (error) => {
       data: null
     };
   }
+};
+
+// Estados de citas según tu backend
+export const ESTADOS_CITA = {
+  PROGRAMADA: 'PROGRAMADA',
+  ATENDIDA: 'ATENDIDA',
+  CANCELADA: 'CANCELADA',
+  REPROGRAMADA: 'REPROGRAMADA',
+  EN_CURSO: 'EN_CURSO'
 };
