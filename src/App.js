@@ -1,3 +1,5 @@
+// src/App.js - Integración del ChatBot
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -7,6 +9,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+
+// Importar ChatBot
+import ChatBot from './components/chatbot/ChatBot';
+import ChatBotButton from './components/ui/ChatBotButton';
+import { useChatBot } from './Hooks/UseChatBot';
 
 // Importar páginas
 import Home from './pages/Home';
@@ -22,8 +29,23 @@ import { ROUTES } from './utils/constants';
 import { authService } from './services/AuthService';
 
 function App() {
+  // Hook del chatbot
+  const {
+    isChatOpen,
+    hasUnreadMessages,
+    isInitialized,
+    closeChat,
+    toggleChat,
+    requestNotificationPermission
+  } = useChatBot();
+
   // Verificar si el usuario está autenticado
   const isAuthenticated = authService.isAuthenticated();
+
+  // Solicitar permisos de notificación al cargar la app
+  React.useEffect(() => {
+    requestNotificationPermission();
+  }, [requestNotificationPermission]);
 
   return (
     <Router>
@@ -195,6 +217,32 @@ function App() {
         <Routes>
           <Route path="/login" element={null} />
           <Route path="*" element={<Footer />} />
+        </Routes>
+
+        {/* ChatBot - Mostrar en todas las páginas excepto login */}
+        <Routes>
+          <Route path="/login" element={null} />
+          <Route 
+            path="*" 
+            element={
+              isInitialized && (
+                <>
+                  {/* Botón flotante del chatbot */}
+                  <ChatBotButton 
+                    onClick={toggleChat}
+                    isOpen={isChatOpen}
+                    hasNotification={hasUnreadMessages}
+                  />
+                  
+                  {/* Componente del chatbot */}
+                  <ChatBot 
+                    isOpen={isChatOpen}
+                    onClose={closeChat}
+                  />
+                </>
+              )
+            } 
+          />
         </Routes>
         
         {/* Container para notificaciones */}

@@ -380,3 +380,82 @@ body {
     transform: scale(1) translateY(0);
   }
 }
+
+/* Animaciones básicas */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Clases de animación específicas del chatbot */
+.chatbot-animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.chatbot-animate-slideInRight {
+  animation: slideInRight 0.4s ease-out;
+}
+
+.chatbot-animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+.chatbot-animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+.chatbot-animate-ping {
+  animation: ping 1s infinite;
+}
+
+/* Mejorar el chatbot */
+@media (max-width: 768px) {
+  .chatbot-container {
+    width: 90vw !important;
+    height: 80vh !important;
+    bottom: 10px !important;
+    right: 5vw !important;
+  }
+}
+
+/* Responsive solo para chatbot */
+@media (max-width: 768px) {
+  .chatbot-mobile-full {
+    position: fixed !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    z-index: 9999;
+  }
+}
